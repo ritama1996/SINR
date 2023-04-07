@@ -15,17 +15,17 @@ SUBROUTINE input_allocation
 IMPLICIT NONE
 INTEGER :: i,j
 
-ALLOCATE(q(3,N_atom))
-ALLOCATE(v(3,N_atom))
-ALLOCATE(lambda(3,N_atom))
-ALLOCATE(v1(3,N_atom,L))
-ALLOCATE(v2(3,N_atom,L))
-ALLOCATE(cons(3,N_atom))
+ALLOCATE(q(2,N_atom))
+ALLOCATE(v(2,N_atom))
+ALLOCATE(lambda(2,N_atom))
+ALLOCATE(v1(2,N_atom,L))
+ALLOCATE(v2(2,N_atom,L))
+ALLOCATE(cons(2,N_atom))
 
 lbylp1=DFLOAT(L)/DFLOAT(L+1)
 
 
-DO i=1,3
+DO i=1,2
     q(i,:)=0.25d0
     v(i,:)=DSQRT(lbylp1)/DSQRT(M)
     lambda(i,:)=M*v(i,:)**2.d0

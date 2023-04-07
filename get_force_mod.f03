@@ -10,15 +10,17 @@ CONTAINS
 SUBROUTINE force_calculation(q,force)
 
 IMPLICIT NONE
-REAL(8),DIMENSION(3,N_atom), INTENT(in) :: q
-REAL(8),DIMENSION(3,N_atom), INTENT(out) :: force
+REAL(8),DIMENSION(2,N_atom), INTENT(in) :: q
+REAL(8),DIMENSION(2,N_atom), INTENT(out) :: force
 
 IF(fast_force)THEN
 
     force=-omega**2.d0*q
     
     ELSE
-    force=-omega**2.d0*q-DFLOAT(Nrespa1)*g_f*q**3.d0
+    !force=-omega**2.d0*q-DFLOAT(Nrespa1)*g_f*q**3.d0
+    force(1,1)=-16.d0*q(1,1)*(q(1,1)**2-1)
+    force(2,1)=-8.d0*q(2,1)
     
 ENDIF
 

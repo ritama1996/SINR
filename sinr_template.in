@@ -1,11 +1,11 @@
 nstep
-10000
+100000
 thermostat
 1
 nsy
 7
-nmts
-1
+dt
+0.1
 natom
 1
 respa_therm

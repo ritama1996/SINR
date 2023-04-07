@@ -36,7 +36,7 @@ MODULE molecular_dynamics
             CALL pos_ou_update(dt,M,v,q,v2)
         
             fast_force=.true.
-            IF(j==Nrespa1)fast_force=.false.
+            IF(ji==Nrespa1)fast_force=.false.
 
             CALL force_calculation(q,force)
 
@@ -54,29 +54,29 @@ MODULE molecular_dynamics
         KE=0.d0
         PE=0.d0
         DO ia=1,N_atom
-          vsq=DOT_PRODUCT(v(1:3,ia),v(1:3,ia))  !v=sqrt(v_x^2 + v_y^2 + v_z^2)
+          vsq=DOT_PRODUCT(v(1:2,ia),v(1:2,ia))  !v=sqrt(v_x^2 + v_y^2 + v_z^2)
           KE=KE+0.5d0 * M * DSQRT(vsq)
-          q_2=DOT_PRODUCT(q(1:3,ia),q(1:3,ia))
-          q_4=SUM(q(ia,1:3)**4)
-          PE=PE+0.5d0*omega**2*q_2 + 0.25d0*g_f*q_4
+         !q_2=DOT_PRODUCT(q(1:2,ia),q(1:2,ia))
+         !q_4=SUM(q(ia,1:3)**4)
+          PE=PE+4.d0*(q(1,1)**2-1.d0)**2+4.d0*(q(2,1)**2-1)
         ENDDO
         
-        WRITE(11,*)t,q(1:3,1),v(1:3,1),KE,PE
+        WRITE(11,*)t,q(1:2,1),v(1:2,1),KE,PE
 
 
    IF(use_mts%XO_RESPA)THEN
      WRITE(3,*)"No. of steps =",io
                 
      DO ia=1,N_atom
-       WRITE(3,"(I5,3F16.10)")ia,q(1,ia),q(2,ia),q(3,ia)
-       IF(ia==1)WRITE(20,*)q(1,ia),q(2,ia),q(3,ia)
+       WRITE(3,"(I5,3F16.10)")ia,q(1,ia),q(2,ia)!(3,ia)
+       IF(ia==1)WRITE(20,*)q(1,ia),q(2,ia)!q(3,ia)
      ENDDO
 
    ELSEIF(use_mts%XI_RESPA)THEN
      WRITE(4,*)"No. of steps =",io
      DO ia=1,N_atom
-       WRITE(4,"(I5,3F16.10)")ia,q(1,ia),q(2,ia),q(3,ia)
-       IF(ia==1)WRITE(30,*)q(1,ia),q(2,ia),q(3,ia)
+       WRITE(4,"(I5,3F16.10)")ia,q(1,ia),q(2,ia)!q(3,ia)
+       IF(ia==1)WRITE(30,*)q(1,ia),q(2,ia)!q(3,ia)
      ENDDO
 
    ENDIF

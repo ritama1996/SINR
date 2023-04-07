@@ -16,9 +16,9 @@ MODULE update_variables
     IMPLICIT NONE
         REAL(8), INTENT(in) :: w(N_sy)
         REAL(8), INTENT(IN) :: tx, M
-        REAL(8), INTENT(inout) :: v1(3,N_atom,L), v2(3,N_atom,L), v(3,N_atom)
-        REAL(8), DIMENSION(3,N_atom) :: H, sum_H
-        REAL(8) :: dti, G(3,N_atom,L)
+        REAL(8), INTENT(inout) :: v1(2,N_atom,L), v2(2,N_atom,L), v(2,N_atom)
+        REAL(8), DIMENSION(2,N_atom) :: H, sum_H
+        REAL(8) :: dti, G(2,N_atom,L)
         INTEGER :: irespa2, isy, i, j, ia
 !!#################################################################
     DO irespa2=1,Nrespa2                                          !
@@ -27,7 +27,7 @@ MODULE update_variables
                                                                   !
         dti=w(isy)*tx                                             !
         !! Upto this part in one subroutine#######################!
-            DO i=1,3
+            DO i=1,2
                 DO ia=1,N_atom
 
                     DO j=1,L
@@ -54,8 +54,8 @@ MODULE update_variables
 
     SUBROUTINE summation(i,ia,dti,v1,v2,sum_H)
     IMPLICIT NONE
-    REAL(8), INTENT(in) :: v1(3,N_atom,L), v2(3,N_atom,L),dti
-    REAL(8), INTENT(out) :: sum_H(3,N_atom)
+    REAL(8), INTENT(in) :: v1(2,N_atom,L), v2(2,N_atom,L),dti
+    REAL(8), INTENT(out) :: sum_H(2,N_atom)
     INTEGER, INTENT(in) :: i,ia
     INTEGER :: j
     
@@ -71,12 +71,12 @@ MODULE update_variables
 
     IMPLICIT NONE
     
-    REAL(8), INTENT(IN) :: ty, M, force(3,N_atom),lambda(3,N_atom)
-    REAL(8), INTENT(INOUT) :: v(3,N_atom), v1(3,N_atom,L)
+    REAL(8), INTENT(IN) :: ty, M, force(2,N_atom),lambda(2,N_atom)
+    REAL(8), INTENT(INOUT) :: v(2,N_atom), v1(2,N_atom,L)
     REAL(8) :: a,b,root_b,s,sdot,arg
     INTEGER :: i,j,ia
 
-    DO i=1,3
+    DO i=1,2
         DO ia = 1,N_atom
 
             a=(force(i,ia)*v(i,ia))/lambda(i,ia)
@@ -126,15 +126,15 @@ MODULE update_variables
 !!*******************************************************************************************************!!
     SUBROUTINE pos_ou_update(ty,M,v,q,v2)
     IMPLICIT NONE
-    REAL(8), INTENT(IN) :: ty, v(3,N_atom), M
-    REAL(8), INTENT(INOUT) :: q(3,N_atom), v2(3,N_atom,L)
+    REAL(8), INTENT(IN) :: ty, v(2,N_atom), M
+    REAL(8), INTENT(INOUT) :: q(2,N_atom), v2(2,N_atom,L)
     REAL(8) :: RND, sigma, GAUSS_DIST1(1)
     INTEGER :: i, ia, j
 
     sigma = DSQRT((2.d0 * gamma * K_B_T)/Q2)
     CALL box_mullar(M,RND)
 
-    DO i=1,3
+    DO i=1,2
         DO ia=1,N_atom
             q(i,ia) = q(i,ia) + v(i,ia) * (ty/2.d0)
             DO j=1,L 
