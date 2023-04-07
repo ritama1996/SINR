@@ -25,7 +25,7 @@ omega = 3.d0
 g_f=0.1d0
 M=1.d0
 K_B_T=1.d0
-del_t = del_t * pi/omega
+!del_t = del_t * pi/omega
 Nrespa1 = INT(del_t/dt)  !! Keeping dt fixed
 
 IF(N_sy==3)THEN

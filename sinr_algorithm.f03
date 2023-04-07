@@ -13,7 +13,7 @@ CALL cpu_time(t1)
 
 OPEN(10, FILE="sinr.in")
 
-ALLOCATE(force(3,N_atom))
+ALLOCATE(force(2,N_atom))
 
 CALL read_input
 
